@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% block title %}Party Planner · {{ APP_NAME }}{% endblock %}
+{% block body_class %}planner-body{% endblock %}
+{% block page_css %}<link rel="stylesheet" href="/static/css/planners.css">{% endblock %}
+
+{% block content %}
+<div class="planner-header">
+  <div class="container">
+    <a href="/dashboard" class="crumb">← Dashboard</a>
+    <h1>Party Budget Planner</h1>
+    <p>Guests, occasion and services — we’ll split the budget where it matters most.</p>
+  </div>
+</div>
+
+<div class="container planner-layout">
+  <form class="planner-form" id="party-form" novalidate>
+    <section class="form-section">
+      <div class="form-section-head">
+        <span class="step-pill">Step 1</span>
+        <h2>The essentials</h2>
+      </div>
+      <div class="field-grid">
+        <div class="field">
+          <label for="party-budget">Total budget (₹)</label>
+          <div class="input-affix">
+            <span class="affix">₹</span>
+            <input type="text" inputmode="numeric" id="party-budget" name="total_budget" placeholder="1,00,000" autocomplete="off" required>
+          </div>
+          <span class="field-error" id="party-budget-error" hidden></span>
+        </div>
+        <div class="field">
+          <label for="party-guests">Guest count</label>
+          <input type="number" id="party-guests" name="guest_count" value="50" min="1" max="5000" required>
+          <span class="field-hint" id="per-guest-hint">≈ ₹0 per guest</span>
+        </div>
+        <div class="field">
+          <label for="party-type">Event type</label>
+          <select id="party-type" name="event_type">
+            <option value="birthday">Birthday</option>
+            <option value="wedding">Wedding</option>
+            <option value="corporate">Corporate</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+      </div>
+      <p class="event-hint" id="event-hint" hidden></p>
+    </section>
+
+    <section class="form-section">
+      <div class="form-section-head">
+        <span class="step-pill">Step 2</span>
+        <h2>What should we arrange?</h2>
+      </div>
+      <div class="toggle-grid">
+        <label class="toggle-card">
+          <input type="checkbox" name="venue_required" checked>
+          <span class="toggle-card-body"><strong>Venue</strong><small>Hall, lawn or rooftop</small></span>
+        </label>
+        <label class="toggle-card">
+          <input type="checkbox" name="food_catering" checked>
+          <span class="toggle-card-body"><strong>Food & catering</strong><small>Buffet, counters, cake</small></span>
+        </label>
+        <label class="toggle-card">
+          <input type="checkbox" name="decoration" checked>
+          <span class="toggle-card-body"><strong>Decoration</strong><small>Theme, flowers, lights</small></span>
+        </label>
+        <label class="toggle-card">
+          <input type="checkbox" name="entertainment">
+          <span class="toggle-card-body"><strong>Entertainment</strong><small>DJ, games, photo booth</small></span>
+        </label>
+        <label class="toggle-card" id="accommodation-card" hidden>
+          <input type="checkbox" name="accommodation_required">
+          <span class="toggle-card-body"><strong>Accommodation</strong><small>Guest rooms (OYO)</small></span>
+        </label>
+      </div>
+      <p class="field-hint" id="party-needs-hint">Pick at least one arrangement.</p>
+    </section>
+
+    <section class="form-section">
+      <div class="form-section-head">
+        <span class="step-pill">Step 3</span>
+        <h2>Anything else?</h2>
+      </div>
+      <div class="field">
+        <label for="party-notes">Additional preferences <span class="optional">optional</span></label>
+        <textarea id="party-notes" name="additional_preferences" rows="3" maxlength="1000"
+          placeholder="e.g. Evening event, vegetarian menu, kids' corner, pastel theme"></textarea>
+      </div>
+    </section>
+
+    <div class="form-error" id="party-error" hidden></div>
+    <button type="submit" class="btn btn-primary btn-lg btn-block" id="party-submit">
+      Generate my party plan
+    </button>
+  </form>
+
+  <aside class="planner-summary">
+    <h3>Plan summary</h3>
+    <div class="summary-row"><span>Total budget</span><strong id="psum-budget">₹0</strong></div>
+    <div class="summary-row"><span>Guests</span><strong id="psum-guests">50</strong></div>
+    <div class="summary-row"><span>Per guest</span><strong id="psum-per">₹0</strong></div>
+    <div class="summary-chips" id="psum-needs"></div>
+    <p class="summary-note">Food usually deserves the largest share; the AI balances it against your venue, decor and entertainment choices.</p>
+  </aside>
+</div>
+{% endblock %}
+
+{% block scripts %}<script src="/static/js/planners.js"></script>{% endblock %}

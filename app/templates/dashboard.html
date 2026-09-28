@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% block title %}Dashboard · {{ APP_NAME }}{% endblock %}
+{% block body_class %}dash-body{% endblock %}
+{% block page_css %}<link rel="stylesheet" href="/static/css/dashboard.css">{% endblock %}
+
+{% block content %}
+<div class="container dash">
+
+  <section class="dash-hero">
+    <div>
+      <h1>Namaste, {{ user.full_name.split(' ')[0] }} 👋</h1>
+      <p>Here’s what you’ve been planning. Pick up where you left off, or start something new.</p>
+    </div>
+    <div class="dash-hero-actions">
+      <a href="/planners/home" class="btn btn-primary">Plan home interior</a>
+      <a href="/planners/party" class="btn btn-outline">Plan a party</a>
+      <a href="/planners/jewelry" class="btn btn-outline">Style jewelry</a>
+    </div>
+  </section>
+
+  <section class="stat-grid">
+    <div class="stat-card">
+      <span class="stat-label">Total plans</span>
+      <span class="stat-value">{{ stats.total_plans }}</span>
+      <span class="stat-sub">across all planners</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label">Home interiors</span>
+      <span class="stat-value">{{ stats.by_type['home'].count }}</span>
+      <span class="stat-sub">{{ "₹{:,.0f}".format(stats.by_type['home'].total_budget) }} planned</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label">Parties</span>
+      <span class="stat-value">{{ stats.by_type['party'].count }}</span>
+      <span class="stat-sub">{{ "₹{:,.0f}".format(stats.by_type['party'].total_budget) }} planned</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label">Jewelry</span>
+      <span class="stat-value">{{ stats.by_type['jewelry'].count }}</span>
+      <span class="stat-sub">{{ "₹{:,.0f}".format(stats.by_type['jewelry'].total_budget) }} planned</span>
+    </div>
+  </section>
+
+  <div class="dash-columns">
+    <section class="dash-panel">
+      <div class="dash-panel-head">
+        <h2>Personalized insights</h2>
+      </div>
+      <div class="insight-list">
+        {% for ins in insights %}
+        <div class="insight-card">
+          <span class="insight-icon ii-{{ ins.icon }}">
+            {% if ins.icon == 'star' %}★{% elif ins.icon == 'wallet' %}₹{% elif ins.icon == 'party' %}✦{% elif ins.icon == 'rocket' %}↑{% else %}✧{% endif %}
+          </span>
+          <div>
+            <strong>{{ ins.title }}</strong>
+            <p>{{ ins.text }}</p>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+
+    <section class="dash-panel">
+      <div class="dash-panel-head">
+        <h2>Recent recommendations</h2>
+        <a href="/history" class="btn btn-ghost btn-sm">View all</a>
+      </div>
+      {% if recent %}
+      <div class="recent-list">
+        {% for plan in recent %}
+        <a class="recent-item" href="/planners/{{ plan.planner_type }}/recommendations?plan_id={{ plan.id }}">
+          <span class="recent-icon ri-{{ plan.planner_type }}">
+            {% if plan.planner_type == 'home' %}⌂{% elif plan.planner_type == 'party' %}✦{% else %}◈{% endif %}
+          </span>
+          <div class="recent-info">
+            <strong>{{ plan.title }}</strong>
+            <span>{{ plan.created_at.strftime('%d %b %Y, %I:%M %p') }} · {{ (plan.result.recommendations | length) if plan.result and plan.result.recommendations else 0 }} items</span>
+          </div>
+          <span class="recent-source {% if not plan.ai_generated %}src-fallback{% endif %}">
+            {{ 'AI plan' if plan.ai_generated else 'Demo plan' }}
+          </span>
+        </a>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="dash-empty">
+        <div class="empty-icon">✨</div>
+        <h3>No plans yet</h3>
+        <p>Your generated recommendations will appear here.</p>
+        <a href="/planners/home" class="btn btn-primary btn-sm">Create your first plan</a>
+      </div>
+      {% endif %}
+    </section>
+  </div>
+
+  <section class="dash-panel">
+    <div class="dash-panel-head"><h2>Saved queries & history</h2></div>
+    {% if recent %}
+    <p class="dash-note">Every plan you generate is saved privately to your history — open any past plan to review or reuse its recommendations.</p>
+    <div class="shortcut-grid">
+      <a class="shortcut-card" href="/history"><strong>Recommendation history</strong><span>Review and reuse past plans</span></a>
+      <a class="shortcut-card" href="/planners/home/recommendations"><strong>Latest home plan</strong><span>Jump to your most recent interior plan</span></a>
+      <a class="shortcut-card" href="/planners/party/recommendations"><strong>Latest party plan</strong><span>Jump to your most recent event plan</span></a>
+      <a class="shortcut-card" href="/planners/jewelry/recommendations"><strong>Latest jewelry plan</strong><span>Jump to your most recent jewelry plan</span></a>
+    </div>
+    {% else %}
+    <p class="dash-note">Once you generate plans, your saved queries and quick links will live here.</p>
+    {% endif %}
+  </section>
+
+</div>
+{% endblock %}

@@ -1,0 +1,92 @@
+{# Shared recommendation result view — hydrated by recommendations.js #}
+<div class="rec-wrap" id="rec-root" data-planner="{{ planner }}">
+  <div class="container">
+
+    <div class="rec-head" id="rec-head">
+      <div class="rec-head-main">
+        <a href="/planners/{{ planner }}" class="crumb">← Plan again</a>
+        <h1 id="rec-title">Loading your plan…</h1>
+        <div class="rec-badges" id="rec-badges"></div>
+      </div>
+      <div class="rec-head-actions">
+        <a href="/history" class="btn btn-ghost btn-sm">History</a>
+        <a href="/planners/{{ planner }}" class="btn btn-primary btn-sm">New plan</a>
+      </div>
+    </div>
+
+    <div class="rec-loading" id="rec-loading">
+      <div class="loading-ring"></div>
+      <p>Fetching your recommendations…</p>
+    </div>
+
+    <div class="rec-empty" id="rec-empty" hidden>
+      <div class="empty-icon">🗓️</div>
+      <h3>No plan to show yet</h3>
+      <p>Generate a plan first and it will appear here.</p>
+      <a href="/planners/{{ planner }}" class="btn btn-primary">Open the planner</a>
+    </div>
+
+    <div class="rec-error" id="rec-error" hidden>
+      <div class="empty-icon">⚠️</div>
+      <h3 id="rec-error-title">Couldn’t load this plan</h3>
+      <p id="rec-error-text"></p>
+      <a href="/planners/{{ planner }}" class="btn btn-primary">Start a new plan</a>
+    </div>
+
+    <div class="rec-content" id="rec-content" hidden>
+      <!-- Demo/fallback notice -->
+      <div class="demo-banner" id="rec-demo-banner" hidden>
+        <strong>Demo mode:</strong> <span id="rec-demo-text"></span>
+      </div>
+
+      <!-- Summary strip -->
+      <div class="rec-summary-grid">
+        <div class="rec-stat">
+          <span class="rec-stat-label">Total budget</span>
+          <span class="rec-stat-value" id="rec-budget">—</span>
+        </div>
+        <div class="rec-stat">
+          <span class="rec-stat-label">Estimated cost</span>
+          <span class="rec-stat-value" id="rec-total">—</span>
+        </div>
+        <div class="rec-stat">
+          <span class="rec-stat-label">Remaining</span>
+          <span class="rec-stat-value" id="rec-remaining">—</span>
+        </div>
+        <div class="rec-stat rec-stat-wide">
+          <span class="rec-stat-label">Budget utilization</span>
+          <div class="utilization-bar"><span id="rec-util-bar"></span></div>
+          <div class="utilization-meta">
+            <span id="rec-util-pct">—</span>
+            <span id="rec-util-status" class="util-status"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- AI summary -->
+      <div class="rec-summary-card">
+        <span class="chip chip-indigo" id="rec-summary-chip">AI plan summary</span>
+        <p id="rec-summary"></p>
+      </div>
+
+      <!-- Allocation -->
+      <section class="rec-section" id="rec-allocation-section">
+        <h2>Budget allocation</h2>
+        <div class="allocation-grid" id="rec-allocation"></div>
+      </section>
+
+      <!-- Recommendations -->
+      <section class="rec-section">
+        <h2>Recommended for you</h2>
+        <div id="rec-recommendations"></div>
+      </section>
+
+      <!-- Tips -->
+      <section class="rec-section" id="rec-tips-section">
+        <h2>Smart tips</h2>
+        <ul class="tips-list" id="rec-tips"></ul>
+      </section>
+    </div>
+
+  </div>
+</div>

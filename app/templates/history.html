@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}Recommendation History · {{ APP_NAME }}{% endblock %}
+{% block body_class %}planner-body{% endblock %}
+{% block page_css %}<link rel="stylesheet" href="/static/css/planners.css">{% endblock %}
+
+{% block content %}
+<div class="container history-wrap">
+  <div class="history-head">
+    <div>
+      <h1>Recommendation history</h1>
+      <p>Every plan you’ve generated — private to your account.</p>
+    </div>
+  </div>
+
+  <div class="history-filters" id="history-filters">
+    <button class="filter-chip active" data-filter="all">All</button>
+    <button class="filter-chip" data-filter="home">Home Interior</button>
+    <button class="filter-chip" data-filter="party">Party</button>
+    <button class="filter-chip" data-filter="jewelry">Jewelry</button>
+  </div>
+
+  {% if entries %}
+  <div class="history-list" id="history-list">
+    {% for e in entries %}
+    <div class="history-item" data-type="{{ e.planner_type }}">
+      <span class="recent-icon ri-{{ e.planner_type }}">
+        {% if e.planner_type == 'home' %}⌂{% elif e.planner_type == 'party' %}✦{% else %}◈{% endif %}
+      </span>
+      <div class="history-info">
+        <strong>{{ e.title }}</strong>
+        <span class="history-meta">
+          {{ e.planner_label }}
+          {% if e.input_summary %}
+            {% for key, value in e.input_summary.items() %}{% if value and value != 'Not described' %} · {{ value }}{% endif %}{% endfor %}
+          {% endif %}
+        </span>
+        <span class="history-date">{{ e.created_at.strftime('%d %b %Y, %I:%M %p') }}</span>
+      </div>
+      <div class="history-right">
+        <span class="history-budget">₹{{ "{:,.0f}".format(e.budget) }}</span>
+        <span class="recent-source {% if not e.ai_generated %}src-fallback{% endif %}">
+          {{ 'AI plan' if e.ai_generated else 'Demo plan' }}
+        </span>
+        <a class="btn btn-outline btn-sm" href="/planners/{{ e.planner_type }}/recommendations?plan_id={{ e.id }}">View plan</a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="history-empty">
+    <div class="empty-icon">🗂️</div>
+    <h3>Nothing here yet</h3>
+    <p>Plans you generate will be saved here so you can review and reuse them anytime.</p>
+    <div class="history-empty-actions">
+      <a href="/planners/home" class="btn btn-primary btn-sm">Plan a home interior</a>
+      <a href="/planners/party" class="btn btn-outline btn-sm">Plan a party</a>
+      <a href="/planners/jewelry" class="btn btn-outline btn-sm">Style jewelry</a>
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  // Lightweight client-side filtering for history entries.
+  document.getElementById('history-filters')?.addEventListener('click', (ev) => {
+    const chip = ev.target.closest('.filter-chip');
+    if (!chip) return;
+    document.querySelectorAll('.filter-chip').forEach(c => c.classList.toggle('active', c === chip));
+    const filter = chip.dataset.filter;
+    document.querySelectorAll('.history-item').forEach(item => {
+      item.style.display = (filter === 'all' || item.dataset.type === filter) ? '' : 'none';
+    });
+  });
+</script>
+{% endblock %}

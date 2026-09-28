@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Log in · {{ APP_NAME }}{% endblock %}
+{% block body_class %}auth-body{% endblock %}
+{% block page_css %}<link rel="stylesheet" href="/static/css/auth.css">{% endblock %}
+
+{% block content %}
+<div class="auth-wrap">
+  <section class="auth-panel" aria-hidden="true">
+    <div class="auth-panel-content">
+      <span class="hero-badge"><span class="pulse-dot"></span> Welcome back</span>
+      <h2>Your plans are waiting.</h2>
+      <p>Log in to revisit recommendations, track past budgets and start new plans.</p>
+      <div class="auth-panel-points">
+        <div class="point"><span class="point-check">✓</span> Private, per-user plan history</div>
+        <div class="point"><span class="point-check">✓</span> Home, party & jewelry planners</div>
+        <div class="point"><span class="point-check">✓</span> Budget-first AI recommendations</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="auth-form-side">
+    <form class="auth-card" id="login-form" novalidate>
+      <h1>Log in</h1>
+      <p class="auth-sub">Welcome back! Enter your details to continue.</p>
+
+      <div class="field">
+        <label for="login-email">Email</label>
+        <input type="email" id="login-email" name="email" placeholder="you@example.com" autocomplete="email" required>
+      </div>
+      <div class="field">
+        <label for="login-password">Password</label>
+        <div class="password-wrap">
+          <input type="password" id="login-password" name="password" placeholder="Your password" autocomplete="current-password" required>
+          <button type="button" class="password-toggle" data-target="login-password" aria-label="Show password">👁</button>
+        </div>
+      </div>
+
+      <div class="form-error" id="login-error" hidden></div>
+
+      <button type="submit" class="btn btn-primary btn-block" id="login-submit">Log in</button>
+      <p class="auth-switch">New to PocketSmart AI? <a href="/register">Create an account</a></p>
+    </form>
+  </section>
+</div>
+{% endblock %}
+
+{% block scripts %}<script src="/static/js/auth.js"></script>{% endblock %}

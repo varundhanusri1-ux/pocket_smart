@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% block title %}Home Interior Planner · {{ APP_NAME }}{% endblock %}
+{% block body_class %}planner-body{% endblock %}
+{% block page_css %}<link rel="stylesheet" href="/static/css/planners.css">{% endblock %}
+
+{% block content %}
+<div class="planner-header">
+  <div class="container">
+    <a href="/dashboard" class="crumb">← Dashboard</a>
+    <h1>Home Interior Budget Planner</h1>
+    <p>Tell us your budget and what each room needs. Gemini will allocate the money and pick the pieces.</p>
+  </div>
+</div>
+
+<div class="container planner-layout">
+  <form class="planner-form" id="home-form" novalidate>
+    <!-- Step 1: Budget -->
+    <section class="form-section">
+      <div class="form-section-head">
+        <span class="step-pill">Step 1</span>
+        <h2>Set your total budget</h2>
+      </div>
+      <div class="field">
+        <label for="home-budget">Total budget (₹)</label>
+        <div class="input-affix">
+          <span class="affix">₹</span>
+          <input type="text" inputmode="numeric" id="home-budget" name="total_budget" placeholder="50,000" autocomplete="off" required>
+        </div>
+        <span class="field-hint" id="home-budget-hint">Minimum ₹2,000 — you can plan as big as you like.</span>
+        <span class="field-error" id="home-budget-error" hidden></span>
+      </div>
+    </section>
+
+    <!-- Step 2: Rooms -->
+    <section class="form-section">
+      <div class="form-section-head">
+        <span class="step-pill">Step 2</span>
+        <h2>Which rooms are we planning?</h2>
+      </div>
+      <div id="room-rows">
+        <div class="room-row">
+          <div class="field grow">
+            <label>Room type</label>
+            <select class="room-type" name="room_type">
+              <option value="Living Room">Living Room</option>
+              <option value="Kitchen">Kitchen</option>
+              <option value="Bedroom" selected>Bedroom</option>
+              <option value="Bathroom">Bathroom</option>
+              <option value="Dining Room">Dining Room</option>
+              <option value="Study Room">Study Room</option>
+              <option value="Kids Room">Kids Room</option>
+              <option value="Balcony">Balcony</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Quantity</label>
+            <div class="stepper">
+              <button type="button" class="stepper-btn" data-step="-1" aria-label="Decrease">−</button>
+              <input type="number" class="room-qty" name="room_qty" value="1" min="1" max="20">
+              <button type="button" class="stepper-btn" data-step="1" aria-label="Increase">+</button>
+            </div>
+          </div>
+          <button type="button" class="row-remove" aria-label="Remove room" hidden>✕</button>
+        </div>
+      </div>
+      <button type="button" class="btn btn-ghost btn-sm" id="add-room">+ Add another room</button>
+    </section>
+
+    <!-- Step 3: Requirements -->
+    <section class="form-section">
+      <div class="form-section-head">
+        <span class="step-pill">Step 3</span>
+        <h2>What do you need?</h2>
+      </div>
+      <div class="toggle-grid">
+        <label class="toggle-card">
+          <input type="checkbox" name="furniture" checked>
+          <span class="toggle-card-body"><strong>Furniture</strong><small>Sofas, beds, storage</small></span>
+        </label>
+        <label class="toggle-card">
+          <input type="checkbox" name="lighting" checked>
+          <span class="toggle-card-body"><strong>Lighting</strong><small>Lamps, panels, LEDs</small></span>
+        </label>
+        <label class="toggle-card">
+          <input type="checkbox" name="dining_table">
+          <span class="toggle-card-body"><strong>Dining table</strong><small>With matching chairs</small></span>
+        </label>
+        <label class="toggle-card">
+          <input type="checkbox" name="decor">
+          <span class="toggle-card-body"><strong>Decor</strong><small>Art, plants, rugs</small></span>
+        </label>
+      </div>
+      <div class="field inline-field">
+        <label for="home-fans">Ceiling fans (quantity)</label>
+        <div class="stepper">
+          <button type="button" class="stepper-btn" data-step="-1" aria-label="Decrease">−</button>
+          <input type="number" id="home-fans" name="ceiling_fans" value="0" min="0" max="50">
+          <button type="button" class="stepper-btn" data-step="1" aria-label="Increase">+</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Step 4: Style -->
+    <section class="form-section">
+      <div class="form-section-head">
+        <span class="step-pill">Step 4</span>
+        <h2>Style & extras</h2>
+      </div>
+      <div class="field">
+        <label for="home-style">Style preference <span class="optional">optional</span></label>
+        <select id="home-style" name="style">
+          <option value="">No preference</option>
+          <option>Modern</option>
+          <option>Minimalist</option>
+          <option>Traditional</option>
+          <option>Scandinavian</option>
+          <option>Industrial</option>
+          <option>Bohemian</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="home-notes">Additional requirements <span class="optional">optional</span></label>
+        <textarea id="home-notes" name="additional_requirements" rows="3" maxlength="1000"
+          placeholder="e.g. Need a study desk for two, prefer easy-to-clean fabrics, move-in ready by December"></textarea>
+      </div>
+    </section>
+
+    <div class="form-error" id="home-error" hidden></div>
+    <button type="submit" class="btn btn-primary btn-lg btn-block" id="home-submit">
+      Generate my interior plan
+    </button>
+  </form>
+
+  <aside class="planner-summary" id="home-summary">
+    <h3>Plan summary</h3>
+    <div class="summary-row"><span>Total budget</span><strong id="sum-budget">₹0</strong></div>
+    <div class="summary-row"><span>Rooms</span><strong id="sum-rooms">1</strong></div>
+    <div class="summary-chips" id="sum-needs"></div>
+    <p class="summary-note">Your plan will split this budget across the categories you select, then recommend specific items within each one.</p>
+  </aside>
+</div>
+{% endblock %}
+
+{% block scripts %}<script src="/static/js/planners.js"></script>{% endblock %}

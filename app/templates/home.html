@@ -1,0 +1,206 @@
+{% extends "base.html" %}
+{% block title %}{{ APP_NAME }} — Smart Budget & Recommendation Assistant{% endblock %}
+{% block page_css %}<link rel="stylesheet" href="/static/css/landing.css">{% endblock %}
+
+{% block content %}
+<!-- ================= Hero ================= -->
+<section class="hero">
+  <div class="container hero-inner">
+    <div class="hero-copy">
+      <span class="hero-badge"><span class="pulse-dot"></span> Powered by Google Gemini</span>
+      <h1>Plan any budget.<br>Get <span class="text-gradient">smart recommendations</span> instantly.</h1>
+      <p class="hero-sub">
+        PocketSmart AI turns your budget into a complete, itemized plan — for home interiors,
+        parties and jewelry — with product suggestions across platforms like IKEA, Amazon,
+        Swiggy and OYO.
+      </p>
+      <div class="hero-cta">
+        {% if user %}
+          <a href="/dashboard" class="btn btn-primary btn-lg">Go to dashboard</a>
+          <a href="#planners" class="btn btn-outline btn-lg">Explore planners</a>
+        {% else %}
+          <a href="/register" class="btn btn-primary btn-lg">Start planning free</a>
+          <a href="#how-it-works" class="btn btn-outline btn-lg">See how it works</a>
+        {% endif %}
+      </div>
+      <div class="hero-stats">
+        <div><strong>3</strong><span>Smart planners</span></div>
+        <div><strong>6+</strong><span>Platform sources</span></div>
+        <div><strong>100%</strong><span>Budget-aware</span></div>
+      </div>
+    </div>
+    <div class="hero-visual" aria-hidden="true">
+      <div class="hero-card hero-card-main">
+        <div class="hero-card-head">
+          <span class="chip chip-indigo">Home Interior</span>
+          <span class="hero-card-budget">₹1,50,000</span>
+        </div>
+        <div class="hero-bar"><span style="width: 87%"></span></div>
+        <div class="hero-card-row"><span>Furniture</span><span>₹52,000</span></div>
+        <div class="hero-card-row"><span>Lighting</span><span>₹21,000</span></div>
+        <div class="hero-card-row"><span>Decor</span><span>₹24,000</span></div>
+        <div class="hero-card-row hero-card-row-total"><span>Estimated total</span><span>₹1,30,500</span></div>
+      </div>
+      <div class="hero-card hero-card-float">
+        <span class="chip chip-green">Within budget</span>
+        <p>“L-shaped sofa from IKEA fits your living room and leaves ₹6,400 for decor.”</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= What it does ================= -->
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-eyebrow">What PocketSmart AI does</span>
+      <h2>From a single number to a complete plan</h2>
+      <p>Enter your budget and preferences. Get category-wise allocation, curated picks and practical tips — in seconds.</p>
+    </div>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon icon-indigo"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg></div>
+        <h3>Budget allocation</h3>
+        <p>Every plan splits your budget across meaningful categories so you always know where the money goes.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon icon-violet"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></div>
+        <h3>Curated recommendations</h3>
+        <p>Specific products and services with estimated prices, quantities and platform labels — never vague advice.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon icon-green"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4"/><path d="m16.2 7.8 2.9-2.9"/><path d="M18 12h4"/><path d="m16.2 16.2 2.9 2.9"/><path d="M12 18v4"/><path d="m4.9 19.1 2.9-2.9"/><path d="M2 12h4"/><path d="m4.9 4.9 2.9 2.9"/></svg></div>
+        <h3>Multimodal AI</h3>
+        <p>Upload an outfit photo and the Jewelry Planner reads colors and style to suggest matching pieces.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon icon-amber"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg></div>
+        <h3>Budget discipline</h3>
+        <p>Utilization tracking, remaining balance and over-budget warnings keep every plan honest.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon icon-rose"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21c0-4-3.6-6-7-6s-7 2-7 6"/><circle cx="12" cy="8" r="4"/></svg></div>
+        <h3>Private by design</h3>
+        <p>JWT-secured accounts. Your plans and history are yours alone — isolated per user.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon icon-sky"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+        <h3>Always honest</h3>
+        <p>AI suggestions are clearly labelled, and demo data is marked as demo — no fake “live” listings.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= Planners ================= -->
+<section class="section section-tinted" id="planners">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-eyebrow">Three smart planners</span>
+      <h2>One assistant for life’s big spends</h2>
+    </div>
+    <div class="planner-grid">
+      <a class="planner-card" href="/planners/home">
+        <div class="planner-card-icon pi-home"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg></div>
+        <h3>Home Interior Budget Planner</h3>
+        <p>Rooms, furniture, lighting, fans, dining and decor — balanced across style, function and price.</p>
+        <div class="planner-card-foot"><span>IKEA · Amazon · Flipkart</span><span class="planner-card-arrow">→</span></div>
+      </a>
+      <a class="planner-card" href="/planners/party">
+        <div class="planner-card-icon pi-party"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5.8 11.3 2 22l10.7-3.79"/><path d="M4 3h.01"/><path d="M22 8h.01"/><path d="M15 2h.01"/><path d="M22 20h.01"/><path d="m22 2-2.24.75a2.9 2.9 0 0 0-1.96 3.12v0c.1.86-.57 1.63-1.45 1.63h-.38c-.86 0-1.6.6-1.76 1.44L14 10"/><path d="m22 13-.82-.33c-.86-.34-1.82.2-1.98 1.11v0c-.11.7-.72 1.22-1.43 1.22H17"/><path d="m11 2 .33.82c.34.86-.2 1.82-1.11 1.98v0C9.52 4.9 9 5.52 9 6.23V7"/><path d="M11 13c1.93 1.93 2.83 4.17 2 5-.83.83-3.07-.07-5-2-1.93-1.93-2.83-4.17-2-5 .83-.83 3.07.07 5 2Z"/></svg></div>
+        <h3>Party Budget Planner</h3>
+        <p>Birthday, wedding or corporate — food, venue, decor and entertainment sized to your guest count.</p>
+        <div class="planner-card-foot"><span>Swiggy · Zomato · OYO</span><span class="planner-card-arrow">→</span></div>
+      </a>
+      <a class="planner-card" href="/planners/jewelry">
+        <div class="planner-card-icon pi-jewelry"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l4 6-10 13L2 9Z"/><path d="M11 3 8 9l4 13 4-13-3-6"/><path d="M2 9h20"/></svg></div>
+        <h3>Jewelry Budget Planner</h3>
+        <p>Occasion-matched jewelry picks — optionally styled from a photo of your outfit.</p>
+        <div class="planner-card-foot"><span>Amazon · Flipkart</span><span class="planner-card-arrow">→</span></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= How it works ================= -->
+<section class="section" id="how-it-works">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-eyebrow">How it works</span>
+      <h2>Four steps to a complete budget plan</h2>
+    </div>
+    <ol class="steps-grid">
+      <li class="step-card"><span class="step-num">1</span><h3>Create your account</h3><p>Sign up in seconds. Your plans and history stay private to your login.</p></li>
+      <li class="step-card"><span class="step-num">2</span><h3>Pick a planner</h3><p>Home, party or jewelry — each form adapts to what you’re planning.</p></li>
+      <li class="step-card"><span class="step-num">3</span><h3>Set budget & preferences</h3><p>Tell Gemini what matters: rooms, guests, occasion, style — even a photo.</p></li>
+      <li class="step-card"><span class="step-num">4</span><h3>Get your plan</h3><p>Allocation, recommendations and tips on clean cards, saved to your history.</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ================= AI + budget split ================= -->
+<section class="section section-tinted">
+  <div class="container split-section">
+    <div class="split-copy">
+      <span class="section-eyebrow">AI-powered, budget-focused</span>
+      <h2>Gemini understands context — not just numbers</h2>
+      <p>Same ₹50,000, different plans. A wedding gets a bigger catering share; a studio apartment gets
+         multi-use furniture. PocketSmart AI weighs functionality, style and price together, then keeps
+         every recommendation inside your envelope.</p>
+      <ul class="check-list">
+        <li>Category-wise allocation with percentages</li>
+        <li>Estimated prices, quantities and per-item totals</li>
+        <li>“Why this fits” reasoning on every card</li>
+        <li>Graceful fallback plans if the AI is briefly unavailable</li>
+      </ul>
+    </div>
+    <div class="split-visual" aria-hidden="true">
+      <div class="mini-panel">
+        <div class="mini-panel-head">Wedding · 120 guests · ₹2,00,000</div>
+        <div class="mini-row"><span>Food & catering</span><div class="mini-bar"><span style="width:44%"></span></div><b>44%</b></div>
+        <div class="mini-row"><span>Venue</span><div class="mini-bar"><span style="width:24%"></span></div><b>24%</b></div>
+        <div class="mini-row"><span>Decoration</span><div class="mini-bar"><span style="width:16%"></span></div><b>16%</b></div>
+        <div class="mini-row"><span>Entertainment</span><div class="mini-bar"><span style="width:9%"></span></div><b>9%</b></div>
+        <div class="mini-row"><span>Accommodation</span><div class="mini-bar"><span style="width:7%"></span></div><b>7%</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= Testimonials ================= -->
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-eyebrow">Loved by planners</span>
+      <h2>What our early users say</h2>
+    </div>
+    <div class="testimonial-grid">
+      <figure class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <blockquote>“We furnished our 2BHK for under ₹1.4L. The allocation view alone saved us from two bad purchases.”</blockquote>
+        <figcaption><span class="avatar">P</span><div><strong>Priya Sharma</strong><span>Home Interior</span></div></figcaption>
+      </figure>
+      <figure class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <blockquote>“Planned my dad’s 60th for 80 guests — the catering vs decor split was exactly what I needed.”</blockquote>
+        <figcaption><span class="avatar">A</span><div><strong>Arjun Mehta</strong><span>Party Budget</span></div></figcaption>
+      </figure>
+      <figure class="testimonial-card">
+        <div class="stars">★★★★☆</div>
+        <blockquote>“Uploaded my saree photo and got jhumka picks that actually matched. Under budget too.”</blockquote>
+        <figcaption><span class="avatar">S</span><div><strong>Sneha Kulkarni</strong><span>Jewelry Stylist</span></div></figcaption>
+      </figure>
+    </div>
+    <div class="center-cta"><a href="/testimonials" class="btn btn-ghost">Read more stories →</a></div>
+  </div>
+</section>
+
+<!-- ================= CTA ================= -->
+<section class="cta-band">
+  <div class="container cta-inner">
+    <h2>Ready to plan smarter?</h2>
+    <p>Create a free account and generate your first AI budget plan in under a minute.</p>
+    <a href="/register" class="btn btn-light btn-lg">Get started free</a>
+  </div>
+</section>
+{% endblock %}

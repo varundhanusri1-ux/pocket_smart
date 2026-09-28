@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% block title %}Jewelry Planner · {{ APP_NAME }}{% endblock %}
+{% block body_class %}planner-body{% endblock %}
+{% block page_css %}<link rel="stylesheet" href="/static/css/planners.css">{% endblock %}
+
+{% block content %}
+<div class="planner-header">
+  <div class="container">
+    <a href="/dashboard" class="crumb">← Dashboard</a>
+    <h1>Jewelry Budget Planner</h1>
+    <p>Occasion, style and budget — optionally add an outfit photo for color-matched picks.</p>
+  </div>
+</div>
+
+<div class="container planner-layout">
+  <form class="planner-form" id="jewelry-form" enctype="multipart/form-data" novalidate>
+    <section class="form-section">
+      <div class="form-section-head">
+        <span class="step-pill">Step 1</span>
+        <h2>Budget & occasion</h2>
+      </div>
+      <div class="field-grid">
+        <div class="field">
+          <label for="jewelry-budget">Total budget (₹)</label>
+          <div class="input-affix">
+            <span class="affix">₹</span>
+            <input type="text" inputmode="numeric" id="jewelry-budget" name="total_budget" placeholder="15,000" autocomplete="off" required>
+          </div>
+          <span class="field-error" id="jewelry-budget-error" hidden></span>
+        </div>
+        <div class="field">
+          <label for="jewelry-occasion">Occasion</label>
+          <input type="text" id="jewelry-occasion" name="occasion" list="occasion-list" placeholder="e.g. Wedding reception" required maxlength="60">
+          <datalist id="occasion-list">
+            <option value="Wedding reception"></option>
+            <option value="Engagement"></option>
+            <option value="Mehendi"></option>
+            <option value="Festival"></option>
+            <option value="Office party"></option>
+            <option value="Birthday dinner"></option>
+            <option value="Everyday wear"></option>
+          </datalist>
+        </div>
+      </div>
+    </section>
+
+    <section class="form-section">
+      <div class="form-section-head">
+        <span class="step-pill">Step 2</span>
+        <h2>Style preferences</h2>
+      </div>
+      <div class="field-grid">
+        <div class="field">
+          <label for="jewelry-style">Style preference <span class="optional">optional</span></label>
+          <select id="jewelry-style" name="style_preference">
+            <option value="">No preference</option>
+            <option>Traditional</option>
+            <option>Contemporary</option>
+            <option>Minimalist</option>
+            <option>Statement</option>
+            <option>Vintage</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="jewelry-type">Jewelry type <span class="optional">optional</span></label>
+          <input type="text" id="jewelry-type" name="jewelry_type" placeholder="e.g. Earrings & necklace set" maxlength="60">
+        </div>
+      </div>
+      <div class="field">
+        <label for="jewelry-outfit">Describe your outfit <span class="optional">optional</span></label>
+        <textarea id="jewelry-outfit" name="outfit_description" rows="3" maxlength="1000"
+          placeholder="e.g. Deep green silk saree with gold border, evening reception"></textarea>
+      </div>
+    </section>
+
+    <section class="form-section">
+      <div class="form-section-head">
+        <span class="step-pill">Step 3</span>
+        <h2>Outfit photo <span class="optional">optional</span></h2>
+      </div>
+      <div class="upload-zone" id="upload-zone" tabindex="0" role="button" aria-label="Upload outfit image">
+        <input type="file" id="jewelry-image" name="outfit_image" accept="image/png,image/jpeg,image/webp" hidden>
+        <div class="upload-empty" id="upload-empty">
+          <div class="upload-icon">📸</div>
+          <p><strong>Click to upload</strong> or drag & drop</p>
+          <span class="field-hint">PNG, JPG or WebP · up to 5 MB</span>
+        </div>
+        <div class="upload-preview" id="upload-preview" hidden>
+          <img id="preview-img" alt="Outfit preview">
+          <div class="preview-meta">
+            <strong id="preview-name"></strong>
+            <span id="preview-size"></span>
+            <button type="button" class="btn btn-ghost btn-sm" id="remove-image">Remove photo</button>
+          </div>
+        </div>
+      </div>
+      <p class="field-hint">The AI looks only at visual style and colors — never at personal characteristics.</p>
+    </section>
+
+    <div class="form-error" id="jewelry-error" hidden></div>
+    <button type="submit" class="btn btn-primary btn-lg btn-block" id="jewelry-submit">
+      Generate my jewelry plan
+    </button>
+  </form>
+
+  <aside class="planner-summary">
+    <h3>Plan summary</h3>
+    <div class="summary-row"><span>Total budget</span><strong id="jsum-budget">₹0</strong></div>
+    <div class="summary-row"><span>Occasion</span><strong id="jsum-occasion">—</strong></div>
+    <div class="summary-chips" id="jsum-needs"></div>
+    <p class="summary-note">Expect a hero piece plus matching accessories, with a little reserved for finishing touches.</p>
+  </aside>
+</div>
+{% endblock %}
+
+{% block scripts %}<script src="/static/js/planners.js"></script>{% endblock %}
